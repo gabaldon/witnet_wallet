@@ -36,8 +36,8 @@ class LayoutState extends State<Layout> with TickerProviderStateMixin {
   var isPanelClose;
 
   Widget showWalletList(BuildContext context) {
-    String walletId = Locator.instance.get<ApiDatabase>()
-        .walletStorage.currentWallet.id;
+    String walletId =
+        Locator.instance.get<ApiDatabase>().walletStorage.currentWallet.id;
     return MouseRegion(
         cursor: SystemMouseCursors.click,
         child: GestureDetector(
@@ -85,10 +85,7 @@ class LayoutState extends State<Layout> with TickerProviderStateMixin {
           body: Padding(
               child: _buildMainLayout(context, theme, true),
               padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom
-              )
-          )
-      );
+                  bottom: MediaQuery.of(context).viewInsets.bottom)));
     }
   }
 
