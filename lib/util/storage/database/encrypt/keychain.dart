@@ -63,7 +63,7 @@ class KeyChain {
   }
 
   Future<bool> validatePassword(String encoded, String password) async {
-    unlocked = (decode(encoded, password) == null) ? false : true;
+    unlocked = (decode(encoded, Password.hash(password)) == null) ? false : true;
     return unlocked;
   }
 
