@@ -44,6 +44,7 @@ class DatabaseIsolate {
 
       initialized = true;
     }
+    print(initialized);
   }
 
   void send({

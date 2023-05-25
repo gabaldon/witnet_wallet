@@ -32,15 +32,30 @@ class ApiDatabase {
   Future<dynamic> _processIsolate(
       {required String method, Map<String, dynamic>? params}) async {
     if (!databaseIsolate.initialized) await databaseIsolate.init();
-    final ReceivePort response = ReceivePort();
-    databaseIsolate.send(
-        method: method, params: params ?? {}, port: response.sendPort);
-    return await response.first.then((value) {
-      if (value.runtimeType == DBException) {
-        throw value;
-      }
-      return value;
-    });
+    if (databaseIsolate.initialized) {
+      final ReceivePort response = ReceivePort();
+      databaseIsolate.send(
+          method: method, params: params ?? {}, port: response.sendPort);
+      return await response.first.then((value) {
+        print('received value $value');
+        if (value.runtimeType == DBException) {
+          throw value;
+        }
+        return value;
+      });
+    } else {
+      print('db is not initialized');
+      final ReceivePort response = ReceivePort();
+      databaseIsolate.send(
+          method: method, params: params ?? {}, port: response.sendPort);
+      return await response.first.then((value) {
+        print('received value $value');
+        if (value.runtimeType == DBException) {
+          throw value;
+        }
+        return value;
+      });
+    }
   }
 
   Future<bool> masterKeySet() async {

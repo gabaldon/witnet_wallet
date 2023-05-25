@@ -194,14 +194,24 @@ class LoginScreenState extends State<LoginScreen>
   FutureBuilder<WalletStorage> build(BuildContext context) {
     final theme = Theme.of(context);
     return FutureBuilder(
-      future: _loadWallets,
+      future: Locator.instance<ApiDatabase>().loadWalletsDatabase(),
       builder: (context, snapshot) {
+        print('connection state -- ${snapshot.connectionState}');
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
             BlocProvider.of<LoginBloc>(context).add(LoginDoneLoadingEvent(
                 walletCount: snapshot.data!.wallets.length));
+            print('data-- ${snapshot.data}');
+            print('data-- ${snapshot.data!.wallets}');
+            print('isNotEmpty -- ${snapshot.data!.wallets.isNotEmpty}');
+            print(
+                'values isNotEmpty -- ${snapshot.data!.wallets.values.isNotEmpty}');
+            print(
+                'length > 0 -- ${snapshot.data!.wallets.values.toList().length > 0}');
             // There are wallets stored
-            if (snapshot.data!.wallets.isNotEmpty) {
+            if (snapshot.data != null
+                ? snapshot.data!.wallets.values.toList().length > 0
+                : false) {
               return Layout(
                 navigationActions: [],
                 widgetList: [
