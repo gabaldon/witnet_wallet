@@ -211,13 +211,27 @@ class MintRepository extends _TransactionRepository {
   ) async {
     try {
       assert(transaction.runtimeType == MintEntry);
-      await _store.record(transaction.transactionID).update(
+      await _store.record(transaction.blockHash).update(
             databaseClient,
             transaction.jsonMap(),
           );
     } catch (e) {
+      print('Error updating mint $e');
       return false;
     }
     return true;
+  }
+
+  Future<MintEntry?> getTransaction(
+      String txHash, DatabaseClient databaseClient) async {
+    try {
+      dynamic mintInfoDbJson = await _store.record(txHash).get(databaseClient);
+
+      MintEntry valueTransferInfo = MintEntry.fromJson(mintInfoDbJson);
+
+      return valueTransferInfo;
+    } catch (e) {
+      return null;
+    }
   }
 }

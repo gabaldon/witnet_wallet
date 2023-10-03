@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'dart:developer';
 
 import 'package:my_wit_wallet/shared/api_database.dart';
 import 'package:my_wit_wallet/shared/locator.dart';
@@ -142,7 +143,12 @@ class Account extends _Account {
       ApiDatabase database = Locator.instance<ApiDatabase>();
       mintHashes.add(mintEntry.blockHash);
       mints.add(mintEntry);
-      await database.addMint(mintEntry);
+      if (await database.getMint(mintEntry.blockHash) == null) {
+        await database.addMint(mintEntry);
+      } else {
+        await database.updateMint(this.walletId, mintEntry);
+      }
+      await database.updateAccount(this);
       return true;
     } catch (e) {
       return false;
