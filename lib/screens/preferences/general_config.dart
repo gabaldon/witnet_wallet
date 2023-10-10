@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_wit_wallet/bloc/crypto/crypto_bloc.dart';
 import 'package:my_wit_wallet/bloc/explorer/explorer_bloc.dart';
 import 'package:my_wit_wallet/screens/dashboard/bloc/dashboard_bloc.dart';
@@ -36,6 +37,8 @@ class GeneralConfigState extends State<GeneralConfig> {
   bool _isThemeSwitchFocus = false;
   FocusNode _switchAuthModeFocusNode = FocusNode();
   bool _isAuthModeSwitchFocus = false;
+
+  AppLocalizations get _localization => AppLocalizations.of(context)!;
 
   @override
   void initState() {
@@ -92,8 +95,8 @@ class GeneralConfigState extends State<GeneralConfig> {
           focusNode: _switchThemeFocusNode,
           isFocused: _isThemeSwitchFocus,
           checked: displayDarkMode,
-          primaryLabel: 'Dark mode',
-          secondaryLabel: '',
+          primaryLabel: _localization.darkMode,
+          secondaryLabel: _localization.lightMode,
           onChanged: (value) => {
                 setState(() {
                   displayDarkMode = !displayDarkMode;
@@ -193,14 +196,14 @@ class GeneralConfigState extends State<GeneralConfig> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           SizedBox(height: 16),
           Text(
-            'Theme',
+            _localization.theme,
             style: theme.textTheme.titleSmall,
           ),
           SizedBox(height: 16),
           themeWidget(theme, context),
           ...showAuthModeSettings(theme),
           Text(
-            'Lock your wallet',
+            _localization.lockYourWallet,
             style: theme.textTheme.titleSmall,
           ),
           Container(
@@ -208,14 +211,14 @@ class GeneralConfigState extends State<GeneralConfig> {
             height: 80,
             child: PaddedButton(
                 padding: EdgeInsets.only(bottom: 16, top: 16),
-                text: 'Lock wallet',
+                text: _localization.lockWalletLabel,
                 type: ButtonType.primary,
                 enabled: true,
                 onPressed: () => _logOut()),
           ),
           SizedBox(height: 16),
           Text(
-            'Version $VERSION_NUMBER',
+            _localization.versionNumber(VERSION_NUMBER),
             style: theme.textTheme.titleSmall,
           )
         ]));

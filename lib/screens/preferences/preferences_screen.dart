@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_wit_wallet/screens/preferences/general_config.dart';
 import 'package:my_wit_wallet/screens/preferences/wallet_config.dart';
-import 'package:my_wit_wallet/util/enum_from_string.dart';
 import 'package:my_wit_wallet/widgets/layouts/dashboard_layout.dart';
 import 'package:my_wit_wallet/widgets/step_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:my_wit_wallet/util/localization.dart';
 
 class PreferencePage extends StatefulWidget {
   PreferencePage({Key? key}) : super(key: key);
@@ -17,20 +19,12 @@ enum ConfigSteps {
   wallet,
 }
 
-Map<ConfigSteps, String> preferencesSteps = {
-  ConfigSteps.general: 'General',
-  ConfigSteps.wallet: 'Wallet'
-};
-
 class _PreferencePageState extends State<PreferencePage> {
-  bool checked = false;
-  List<ConfigSteps> stepListItems = ConfigSteps.values.toList();
-  ConfigSteps stepSelectedItem = ConfigSteps.general;
+  final _stepBarKey = new GlobalKey<StepBarState>();
   ScrollController scrollController = ScrollController(keepScrollOffset: false);
-  GlobalKey<WalletConfigState> walletConfigState =
-      GlobalKey<WalletConfigState>();
-  GlobalKey<GeneralConfigState> generalConfigState =
-      GlobalKey<GeneralConfigState>();
+  List<String> steps = [];
+  StepBar? stepBar;
+  AppLocalizations get _localization => AppLocalizations.of(context)!;
 
   @override
   void initState() {
@@ -42,31 +36,43 @@ class _PreferencePageState extends State<PreferencePage> {
     super.dispose();
   }
 
-  Widget buildStepWithNavBar(Widget child) {
+  Map<Enum, String> get _localizedConfigSteps =>
+      localizeEnum(context, ConfigSteps.values, _localization.preferenceTabs);
+
+  Widget _configView(BuildContext context, Widget view) {
+    if (stepBar == null) {
+      stepBar = StepBar(
+          key: _stepBarKey,
+          actionable: true,
+          steps: _localizedConfigSteps.values.toList(),
+          initialItem: null,
+          onChanged: (item) => {
+                scrollController.jumpTo(0.0),
+                setState(
+                  () => _stepBarKey.currentState!.selectedItem = item!,
+                )
+              });
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        StepBar(
-            actionable: true,
-            selectedItem: preferencesSteps[stepSelectedItem]!,
-            listItems: preferencesSteps.values.toList(),
-            onChanged: (item) => {
-                  scrollController.jumpTo(0.0),
-                  setState(() => stepSelectedItem =
-                      getEnumFromString(preferencesSteps, item ?? '')!
-                          as ConfigSteps),
-                }),
-        SizedBox(height: 16),
-        child
-      ],
+      children: [stepBar!, SizedBox(height: 16), view],
     );
   }
 
   Widget _buildConfigView() {
-    return stepSelectedItem == ConfigSteps.general
-        ? buildStepWithNavBar(GeneralConfig(key: generalConfigState))
-        : buildStepWithNavBar(WalletConfig(
-            key: walletConfigState, scrollController: scrollController));
+    if (_stepBarKey.currentState == null) {
+      return _configView(context, GeneralConfig());
+    } else if (_stepBarKey.currentState?.selectedIndex() ==
+        ConfigSteps.general.index) {
+      return _configView(context, GeneralConfig());
+    } else if (_stepBarKey.currentState?.selectedIndex() ==
+        ConfigSteps.wallet.index) {
+      return _configView(
+          context, WalletConfig(scrollController: scrollController));
+    } else {
+      return _configView(context, GeneralConfig());
+    }
   }
 
   @override
