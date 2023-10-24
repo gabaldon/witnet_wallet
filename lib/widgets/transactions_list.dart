@@ -131,11 +131,11 @@ class TransactionsListState extends State<TransactionsList> {
 
     if (txnType == TransactionType.value_transfer) {
       label = getTransactionLabel(
-          widget.externalAddresses,
-          widget.internalAddresses,
-          transaction.vtt!.inputs,
-          widget.singleAddressAccount,
-          context,
+        widget.externalAddresses,
+        widget.internalAddresses,
+        transaction.vtt!.inputs,
+        widget.singleAddressAccount,
+        context,
       );
 
       address = getTransactionAddress(

@@ -39,8 +39,8 @@ Future<String?> unlockKeychainModal(
                   if (validate) {
                     bool valid = await apiDatabase.verifyPassword(password);
                     if (!valid) {
-                      setState(
-                              () => _passwordInputErrorText = _localization.invalidPassword);
+                      setState(() => _passwordInputErrorText =
+                          _localization.invalidPassword);
                     } else {
                       onAction();
                       Navigator.popUntil(

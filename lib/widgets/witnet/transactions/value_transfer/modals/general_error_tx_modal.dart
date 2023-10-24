@@ -50,7 +50,6 @@ void buildTxGeneralExceptionModal(
       content: Column(mainAxisSize: MainAxisSize.min, children: [
         svgThemeImage(theme, name: 'transaction-error', height: 100),
         SizedBox(height: 16),
-        Text(_localization.errorTransaction,
-            style: theme.textTheme.bodyLarge)
+        Text(_localization.errorTransaction, style: theme.textTheme.bodyLarge)
       ]));
 }

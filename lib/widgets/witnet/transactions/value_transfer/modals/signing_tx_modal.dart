@@ -12,7 +12,6 @@ void buildSigningTxModal(ThemeData theme, BuildContext context) {
       content: Column(mainAxisSize: MainAxisSize.min, children: [
         svgThemeImage(theme, name: 'signing-transaction', height: 100),
         SizedBox(height: 16),
-        Text(_localization.txnSigning01,
-            style: theme.textTheme.bodyLarge)
+        Text(_localization.txnSigning01, style: theme.textTheme.bodyLarge)
       ]));
 }

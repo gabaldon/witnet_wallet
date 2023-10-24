@@ -141,11 +141,13 @@ class EncryptWalletCardState extends State<EncryptWalletCard>
           0: _localization.encryptWalletHeader,
           1: _localization.encryptWallet01,
           2: _localization.encryptWallet02,
-          3: seedSource == "xprv" ? _localization.encryptWallet04 : _localization.encryptWallet03(Locator.instance
-              .get<ApiCreateWallet>()
-              .seedData!
-              .split(' ')
-              .length),
+          3: seedSource == "xprv"
+              ? _localization.encryptWallet04
+              : _localization.encryptWallet03(Locator.instance
+                  .get<ApiCreateWallet>()
+                  .seedData!
+                  .split(' ')
+                  .length),
         };
     List<Widget> _widgets = [];
     List<String> _localizedText =
@@ -171,7 +173,8 @@ class EncryptWalletCardState extends State<EncryptWalletCard>
     _passFocusNode.addListener(() => validateForm());
     final theme = Theme.of(context);
     String? seedSource = Locator.instance.get<ApiCreateWallet>().seedSource;
-    int? seedLength = Locator.instance.get<ApiCreateWallet>().seedData!.split(' ').length;
+    int? seedLength =
+        Locator.instance.get<ApiCreateWallet>().seedData!.split(' ').length;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -192,7 +195,9 @@ class EncryptWalletCardState extends State<EncryptWalletCard>
         ),
         SizedBox(height: 8),
         Text(
-    seedSource! == "xprv" ? _localization.encryptWallet04 : _localization.encryptWallet03(seedLength),
+          seedSource! == "xprv"
+              ? _localization.encryptWallet04
+              : _localization.encryptWallet03(seedLength),
           style: theme.textTheme.bodyLarge,
         ),
         SizedBox(height: 16),

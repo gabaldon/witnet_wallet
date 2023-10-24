@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_wit_wallet/screens/preferences/general_config.dart';
 import 'package:my_wit_wallet/screens/preferences/wallet_config.dart';
+import 'package:my_wit_wallet/util/enum_from_string.dart';
 import 'package:my_wit_wallet/widgets/layouts/dashboard_layout.dart';
 import 'package:my_wit_wallet/widgets/step_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -19,10 +20,15 @@ enum ConfigSteps {
   wallet,
 }
 
+Map<ConfigSteps, String> preferencesSteps = {
+  ConfigSteps.general: 'General',
+  ConfigSteps.wallet: 'Wallet'
+};
+
 class _PreferencePageState extends State<PreferencePage> {
-  final _stepBarKey = new GlobalKey<StepBarState>();
   ScrollController scrollController = ScrollController(keepScrollOffset: false);
   List<String> steps = [];
+  String selectedItem = preferencesSteps[ConfigSteps.general]!;
   StepBar? stepBar;
   AppLocalizations get _localization => AppLocalizations.of(context)!;
 
@@ -42,14 +48,15 @@ class _PreferencePageState extends State<PreferencePage> {
   Widget _configView(BuildContext context, Widget view) {
     if (stepBar == null) {
       stepBar = StepBar(
-          key: _stepBarKey,
           actionable: true,
+          selectedItem: selectedItem,
           steps: _localizedConfigSteps.values.toList(),
           initialItem: null,
           onChanged: (item) => {
                 scrollController.jumpTo(0.0),
+                print(item),
                 setState(
-                  () => _stepBarKey.currentState!.selectedItem = item!,
+                  () => selectedItem = item!,
                 )
               });
     }
@@ -61,13 +68,9 @@ class _PreferencePageState extends State<PreferencePage> {
   }
 
   Widget _buildConfigView() {
-    if (_stepBarKey.currentState == null) {
+    if (selectedItem == preferencesSteps[ConfigSteps.general]) {
       return _configView(context, GeneralConfig());
-    } else if (_stepBarKey.currentState?.selectedIndex() ==
-        ConfigSteps.general.index) {
-      return _configView(context, GeneralConfig());
-    } else if (_stepBarKey.currentState?.selectedIndex() ==
-        ConfigSteps.wallet.index) {
+    } else if (selectedItem == preferencesSteps[ConfigSteps.wallet]) {
       return _configView(
           context, WalletConfig(scrollController: scrollController));
     } else {

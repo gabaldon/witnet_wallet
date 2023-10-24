@@ -18,6 +18,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum DashboardViewSteps { transactions, stats }
 
+Map<DashboardViewSteps, String> get dashboardSteps => {
+      DashboardViewSteps.transactions: 'Transactions',
+      DashboardViewSteps.stats: 'Stats'
+    };
+
 class DashboardScreen extends StatefulWidget {
   static final route = '/dashboard';
   @override
@@ -42,8 +47,8 @@ class DashboardScreenState extends State<DashboardScreen>
   ExplorerBloc? explorerBlock;
 
   AppLocalizations get _localization => AppLocalizations.of(context)!;
-  final _stepBarKey = new GlobalKey<StepBarState>();
   List<String> viewSteps = [];
+  String selectedItem = dashboardSteps[DashboardViewSteps.transactions]!;
 
   StepBar? _stepBar;
 
@@ -118,11 +123,6 @@ class DashboardScreenState extends State<DashboardScreen>
     );
   }
 
-  Map<DashboardViewSteps, String> dashboardSteps() => {
-    DashboardViewSteps.transactions: _localizedDashboardViewSteps[DashboardViewSteps.transactions]!,
-    DashboardViewSteps.stats: _localizedDashboardViewSteps[DashboardViewSteps.stats]!
-  };
-
   void scrollToTop() {
     scrollController.jumpTo(0.0);
   }
@@ -133,11 +133,10 @@ class DashboardScreenState extends State<DashboardScreen>
   }
 
   Widget buildMainDashboardContent(ThemeData theme) {
-    if (_stepBarKey.currentState == null) {
+    if (selectedItem == null) {
       return buildTransactionsView();
     }
-    if (_stepBarKey.currentState!.selectedIndex() ==
-        DashboardViewSteps.transactions.index) {
+    if (selectedItem == DashboardViewSteps.transactions) {
       return buildTransactionsView();
     }
     return Stats(currentWallet: currentWallet!);
@@ -167,17 +166,18 @@ class DashboardScreenState extends State<DashboardScreen>
   StepBar get stepBar {
     if (_stepBar == null) {
       _stepBar = StepBar(
-          key: _stepBarKey,
+          selectedItem: selectedItem,
           steps: _localizedDashboardViewSteps.values.toList(),
           actionable: false,
           initialItem: _localizedDashboardViewSteps.values.first,
           onChanged: (item) => {
-            setState(() {
-              _stepBarKey.currentState!.setState(() {
-                _stepBarKey.currentState!.selectedItem = item!;
+                setState(() => selectedItem = item ?? 'Transations')
+                // setState(() {
+                //   _stepBarKey.currentState!.setState(() {
+                //     _stepBarKey.currentState!.selectedItem = item!;
+                //   });
+                // })
               });
-            })
-          });
     }
     return _stepBar!;
   }
@@ -185,16 +185,17 @@ class DashboardScreenState extends State<DashboardScreen>
   Widget _configView() {
     if (_stepBar == null) {
       _stepBar = StepBar(
-          key: _stepBarKey,
+          selectedItem: selectedItem,
           actionable: true,
           steps: _localizedDashboardViewSteps.values.toList(),
           initialItem: null,
           onChanged: (item) => {
-            scrollController.jumpTo(0.0),
-            setState(
-                  () => _stepBarKey.currentState!.selectedItem = item!,
-            )
-          });
+                scrollController.jumpTo(0.0),
+                setState(() => selectedItem = item ?? 'Transations')
+                // setState(
+                //       () => _stepBarKey.currentState!.selectedItem = item!,
+                // )
+              });
     }
     return _stepBar!;
   }

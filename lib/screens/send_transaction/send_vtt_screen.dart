@@ -28,6 +28,12 @@ enum VTTsteps {
   Review,
 }
 
+Map<VTTsteps, String> transactionSteps = {
+  VTTsteps.Transaction: 'Transaction',
+  VTTsteps.MinerFee: 'Miner Fee',
+  VTTsteps.Review: 'Review'
+};
+
 class CreateVttScreenState extends State<CreateVttScreen>
     with TickerProviderStateMixin {
   GlobalKey<RecipientStepState> transactionFormState =
@@ -45,10 +51,9 @@ class CreateVttScreenState extends State<CreateVttScreen>
   FeeType? savedFeeType;
   ScrollController scrollController = ScrollController(keepScrollOffset: false);
   AppLocalizations get _localization => AppLocalizations.of(context)!;
-
-  final _stepBarKey = new GlobalKey<StepBarState>();
   List<String>? steps;
   StepBar? stepBar;
+  String selectedItem = transactionSteps[VTTsteps.Transaction]!;
 
   @override
   void initState() {
@@ -77,27 +82,13 @@ class CreateVttScreenState extends State<CreateVttScreen>
   }
 
   void goToNextStep() {
-    setState(() {
-      if (steps == null) {
-        steps = _localizedVttSteps.values.toList();
-      }
-      setOngoingTransaction();
-    });
-
-    if (_stepBarKey.currentState!.selectedIndex() + 1 < steps!.length) {
+    List<String> steps = transactionSteps.values.toList();
+    if (steps.indexOf(selectedItem) + 1 < steps.length) {
       scrollController.jumpTo(0.0);
       setState(() {
-        _stepBarKey.currentState!.setState(() {
-          _stepBarKey.currentState!.selectedItem =
-              steps![_stepBarKey.currentState!.selectedIndex() + 1];
-        });
-        setOngoingTransaction();
+        selectedItem = steps[steps.indexOf(selectedItem) + 1];
       });
     }
-  }
-
-  Map<Enum, String> get _localizedVttSteps {
-    return localizeEnum(context, VTTsteps.values, _localization.vttSendSteps);
   }
 
   void _getCurrentWallet() {
@@ -113,16 +104,17 @@ class CreateVttScreenState extends State<CreateVttScreen>
   }
 
   bool _isNextStepAllow() {
-    int _index = _stepBarKey.currentState!.selectedIndex();
-    bool isTransactionFormValid = _index == VTTsteps.Transaction.index &&
-        (transactionFormState.currentState != null &&
-            transactionFormState.currentState!.validateForm(force: true));
-    bool isMinerFeeFormValid = _index == VTTsteps.MinerFee.index &&
-        (minerFeeState.currentState != null &&
-            minerFeeState.currentState!.validateForm(force: true));
+    bool isTransactionFormValid =
+        selectedItem == transactionSteps[VTTsteps.Transaction] &&
+            (transactionFormState.currentState != null &&
+                transactionFormState.currentState!.validateForm(force: true));
+    bool isMinerFeeFormValid =
+        selectedItem == transactionSteps[VTTsteps.MinerFee] &&
+            (minerFeeState.currentState != null &&
+                minerFeeState.currentState!.validateForm(force: true));
     return (isTransactionFormValid |
         isMinerFeeFormValid |
-        (_index == VTTsteps.Review.index));
+        (selectedItem == transactionSteps[VTTsteps.Review]));
   }
 
   List<Widget> _actions() {
@@ -199,14 +191,10 @@ class CreateVttScreenState extends State<CreateVttScreen>
   }
 
   Widget stepToBuild() {
-    if (_stepBarKey.currentState == null) {
+    print('selectedItem $selectedItem');
+    if (selectedItem == transactionSteps[VTTsteps.Transaction]) {
       return _recipientStep();
-    }
-
-    int _index = _stepBarKey.currentState!.selectedIndex();
-    if (_index == VTTsteps.Transaction.index) {
-      return _recipientStep();
-    } else if (_index == VTTsteps.MinerFee.index) {
+    } else if (selectedItem == transactionSteps[VTTsteps.MinerFee]) {
       return _selectMinerFeeStep();
     } else {
       return _reviewStep();
@@ -218,14 +206,15 @@ class CreateVttScreenState extends State<CreateVttScreen>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         StepBar(
-            key: _stepBarKey,
-            steps: _localizedVttSteps.values.toList(),
+            steps: transactionSteps.values.toList(),
+            selectedItem: selectedItem,
             actionable: false,
-            initialItem: _localizedVttSteps.values.first,
+            initialItem: transactionSteps.values.first,
             onChanged: (item) => {
                   setState(
-                    () => _stepBarKey.currentState!.selectedItem = item!,
-                  )
+                    () => selectedItem = item!,
+                  ),
+                  setOngoingTransaction(),
                 }),
         SizedBox(height: 16),
         stepToBuild(),

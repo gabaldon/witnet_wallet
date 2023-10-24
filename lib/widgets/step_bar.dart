@@ -4,37 +4,23 @@ import 'package:my_wit_wallet/widgets/PaddedButton.dart';
 
 typedef void StringCallback(String? value);
 
-class StepBar extends StatefulWidget {
+class StepBar extends StatelessWidget {
   StepBar({
     Key? key,
     required this.actionable,
     required this.steps,
     required this.onChanged,
+    this.selectedItem,
     this.initialItem,
   }) : super(key: key);
 
   final List<String> steps;
   final StringCallback onChanged;
   final bool actionable;
+  final String? selectedItem;
   final String? initialItem;
 
-  @override
-  State<StatefulWidget> createState() => StepBarState();
-}
-
-class StepBarState extends State<StepBar> {
-  late String selectedItem;
-  @override
-  void initState() {
-    super.initState();
-    if (widget.initialItem != null) {
-      selectedItem = widget.steps[widget.steps.indexOf(widget.initialItem!)];
-    } else {
-      selectedItem = widget.steps[0];
-    }
-  }
-
-  int selectedIndex() => widget.steps.indexOf(this.selectedItem);
+  int selectedIndex() => steps.indexOf(selectedItem!);
 
   Widget _buildStepBarItem(String item, BuildContext context,
       ExtendedTheme extendedTheme, bool isItemActionable) {
@@ -45,7 +31,7 @@ class StepBarState extends State<StepBar> {
                 padding: EdgeInsets.zero,
                 text: item,
                 color: _itemColor(item, isItemActionable, extendedTheme),
-                onPressed: () => widget.onChanged(item),
+                onPressed: () => onChanged(item),
                 type: ButtonType.stepbar)
             : PaddedButton(
                 padding: EdgeInsets.zero,
@@ -65,13 +51,13 @@ class StepBarState extends State<StepBar> {
         height: 30,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: widget.steps.length,
+          itemCount: steps.length,
           itemBuilder: (context, index) {
             bool isItemActionable =
-                (widget.actionable || (index < selectedIndex())) ? true : false;
+                (actionable || (index < selectedIndex())) ? true : false;
 
             return _buildStepBarItem(
-                widget.steps[index], context, extendedTheme, isItemActionable);
+                steps[index], context, extendedTheme, isItemActionable);
           },
         ));
   }
