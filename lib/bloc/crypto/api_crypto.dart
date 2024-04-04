@@ -136,7 +136,6 @@ class ApiCrypto {
         }
       }
     }
-    print('SIGNERS >> $_signers');
     CryptoIsolate cryptoIsolate = Locator.instance.get<CryptoIsolate>();
     List<KeyedSignature> signatures = await cryptoIsolate.send(
         method: 'signTransaction',
@@ -145,7 +144,6 @@ class ApiCrypto {
           'signers': _signers,
           'transaction_id': transactionId
         });
-    print('signTransaction >> $signatures');
     return signatures;
   }
 

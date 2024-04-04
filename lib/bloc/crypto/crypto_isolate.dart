@@ -46,7 +46,6 @@ String _generateMnemonic(Map<String, dynamic> params) {
 }
 
 Future<Wallet> _initializeWallet(Map<String, dynamic> params) async {
-  print('seedSource :: ${params['seedSource']} $params');
   bool isHdWallet = params['walletType'] == "hd";
   switch (params['seedSource']) {
     case 'mnemonic':
@@ -184,55 +183,58 @@ Future<dynamic> _signTransaction(Map<String, dynamic> params) async {
 }
 
 Future<Map<String, dynamic>> _signMessage(Map<String, dynamic> params) async {
-  String password = params["password"];
-  Map<String, dynamic> signerMap = params['signer'];
+  // Force error for testing purpose
+  throw 'Forced error while signing message';
+  // TODO: uncomment this code after testing writing error logs
+  // String password = params["password"];
+  // Map<String, dynamic> signerMap = params['signer'];
 
-  Map<String, dynamic> signedMessage = {};
-  String address;
-  String message = params['message'];
-  assert(signerMap.length == 1);
-  String encryptedXprv = signerMap.keys.first;
-  String path = signerMap[encryptedXprv];
-  Xprv masterXprv = Xprv.fromEncryptedXprv(encryptedXprv, password);
-  Xprv signer;
+  // Map<String, dynamic> signedMessage = {};
+  // String address;
+  // String message = params['message'];
+  // assert(signerMap.length == 1);
+  // String encryptedXprv = signerMap.keys.first;
+  // String path = signerMap[encryptedXprv];
+  // Xprv masterXprv = Xprv.fromEncryptedXprv(encryptedXprv, password);
+  // Xprv signer;
 
-  if (path.contains("/")) {
-    List<String> indexedPath = path.split('/');
-    assert(indexedPath.length == 6, 'Path does not derive a valid Wallet');
-    if (indexedPath.elementAt(4) == '0') {
-      signer = masterXprv /
-          KEYPATH_PURPOSE /
-          KEYPATH_COIN_TYPE /
-          KEYPATH_ACCOUNT /
-          EXTERNAL_KEYCHAIN /
-          int.parse(indexedPath.last);
-    } else {
-      assert(indexedPath.elementAt(4) == '1');
-      signer = masterXprv /
-          KEYPATH_PURPOSE /
-          KEYPATH_COIN_TYPE /
-          KEYPATH_ACCOUNT /
-          INTERNAL_KEYCHAIN /
-          int.parse(indexedPath.last);
-    }
-  } else {
-    assert(path == "m", "Invalid master path");
-    signer = masterXprv;
-  }
+  // if (path.contains("/")) {
+  //   List<String> indexedPath = path.split('/');
+  //   assert(indexedPath.length == 6, 'Path does not derive a valid Wallet');
+  //   if (indexedPath.elementAt(4) == '0') {
+  //     signer = masterXprv /
+  //         KEYPATH_PURPOSE /
+  //         KEYPATH_COIN_TYPE /
+  //         KEYPATH_ACCOUNT /
+  //         EXTERNAL_KEYCHAIN /
+  //         int.parse(indexedPath.last);
+  //   } else {
+  //     assert(indexedPath.elementAt(4) == '1');
+  //     signer = masterXprv /
+  //         KEYPATH_PURPOSE /
+  //         KEYPATH_COIN_TYPE /
+  //         KEYPATH_ACCOUNT /
+  //         INTERNAL_KEYCHAIN /
+  //         int.parse(indexedPath.last);
+  //   }
+  // } else {
+  //   assert(path == "m", "Invalid master path");
+  //   signer = masterXprv;
+  // }
 
-  address = signer.address.address;
-  KeyedSignature signature = signer.address.signHash(
-      bytesToHex(sha256(data: Uint8List.fromList(message.codeUnits))),
-      signer.privateKey);
+  // address = signer.address.address;
+  // KeyedSignature signature = signer.address.signHash(
+  //     bytesToHex(sha256(data: Uint8List.fromList(message.codeUnits))),
+  //     signer.privateKey);
 
-  String _formatBytes(List<int> data) =>
-      "0x${bytesToHex(Uint8List.fromList(data))}";
+  // String _formatBytes(List<int> data) =>
+  //     "0x${bytesToHex(Uint8List.fromList(data))}";
 
-  signedMessage["address"] = address;
-  signedMessage["message"] = message;
-  signedMessage["public_key"] = _formatBytes(signature.publicKey.publicKey);
-  signedMessage["signature"] = _formatBytes(signature.signature.secp256k1.der);
-  return signedMessage;
+  // signedMessage["address"] = address;
+  // signedMessage["message"] = message;
+  // signedMessage["public_key"] = _formatBytes(signature.publicKey.publicKey);
+  // signedMessage["signature"] = _formatBytes(signature.signature.secp256k1.der);
+  // return signedMessage;
 }
 
 String _hashPassword(Map<String, dynamic> params) {

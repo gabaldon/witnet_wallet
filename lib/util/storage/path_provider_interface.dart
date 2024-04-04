@@ -145,6 +145,7 @@ class PathProviderInterface {
 
   Future<String> createFolderInDocuments(String folderName) async {
     final String? _logsDirectory = await logsDirectoryPath;
+    print('LOG FILE DIRECTORY: $_logsDirectory/$folderName/');
     final Directory _documentsFolder =
         Directory('$_logsDirectory/$folderName/');
 
