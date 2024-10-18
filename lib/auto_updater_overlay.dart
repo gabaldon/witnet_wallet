@@ -145,7 +145,7 @@ void customDialog({
       surfaceTintColor: Colors.transparent,
       scrollable: true,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8))),
+          borderRadius: BorderRadius.all(Radius.circular(32))),
       title: Flex(
         direction: Axis.vertical,
         children: [

@@ -45,7 +45,7 @@ void buildGeneralExceptionModal({
         errorMessage != null
             ? Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(32),
                   color: WitnetPallet.lightGrey,
                 ),
                 padding: EdgeInsets.only(left: 8),

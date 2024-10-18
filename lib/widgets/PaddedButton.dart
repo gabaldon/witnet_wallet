@@ -111,8 +111,8 @@ class PaddedButton extends StatelessWidget {
           backgroundColor: color != null ? color : null,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
-            topRight: Radius.circular(24),
-            bottomRight: Radius.circular(24),
+            topRight: Radius.circular(32),
+            bottomRight: Radius.circular(32),
           ))),
       child: isLoading ? buildCircularProgress(context, theme) : child,
       onPressed: enabled ? onPressed : null,

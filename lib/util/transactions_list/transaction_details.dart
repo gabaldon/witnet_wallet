@@ -164,9 +164,9 @@ class TransactionUtils {
     if (inputs.length < 1)
       return 'genesis';
     else if (label == localization.from && inputs.length > 0) {
-      address = getSenderAddress().cropMiddle(18);
+      address = getSenderAddress().cropMiddle(15);
     } else if (outputs.length > 0) {
-      address = getRecipientAddress().cropMiddle(18);
+      address = getRecipientAddress().cropMiddle(15);
     }
     return address;
   }

@@ -25,7 +25,7 @@ buildAlertDialog({
               backgroundColor: theme.colorScheme.surface,
               surfaceTintColor: theme.colorScheme.surface,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(24))),
+                  borderRadius: BorderRadius.all(Radius.circular(32))),
               icon: icon != null
                   ? Icon(icon,
                       size: 24, color: color ?? WitnetPallet.brightCyan)

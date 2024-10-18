@@ -13,7 +13,7 @@ SnackBar buildCopiedSnackbar(ThemeData theme, String text) {
   return SnackBar(
     width: 150,
     shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(24))),
+        borderRadius: BorderRadius.all(Radius.circular(32))),
     clipBehavior: Clip.none,
     content: Text(text,
         textAlign: TextAlign.center,
@@ -71,7 +71,7 @@ SnackBar buildErrorSnackbar(
   return SnackBar(
     clipBehavior: Clip.none,
     shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(24))),
+        borderRadius: BorderRadius.all(Radius.circular(32))),
     action: action != null
         ? SnackBarAction(
             label: 'Dismiss',
@@ -87,7 +87,7 @@ SnackBar buildErrorSnackbar(
       log != null
           ? Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.circular(32),
                 color: WitnetPallet.lightGrey,
               ),
               padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4),

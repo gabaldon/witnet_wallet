@@ -45,7 +45,7 @@ class SelectWalletBox extends StatelessWidget {
           color: isSelected
               ? extendedTheme.walletActiveItemBackgroundColor
               : extendedTheme.walletListBackgroundColor,
-          borderRadius: BorderRadius.all(Radius.circular(24)),
+          borderRadius: BorderRadius.all(Radius.circular(32)),
           border: Border.all(
             color: isSelected
                 ? extendedTheme.walletActiveItemBorderColor!
@@ -60,9 +60,9 @@ class SelectWalletBox extends StatelessWidget {
               decoration: BoxDecoration(
                   color: WitnetPallet.black,
                   border: Border.all(color: WitnetPallet.transparent),
-                  borderRadius: BorderRadius.all(Radius.circular(24))),
+                  borderRadius: BorderRadius.all(Radius.circular(32))),
               child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(24)),
+                borderRadius: BorderRadius.all(Radius.circular(32)),
                 child: Container(
                   decoration: BoxDecoration(
                       color: WitnetPallet.black,
@@ -72,25 +72,23 @@ class SelectWalletBox extends StatelessWidget {
                   child: Identicon(seed: walletId, size: 8),
                 ),
               )),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(left: 16, right: 16, top: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    walletName,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.labelLarge,
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    address.cropMiddle(15),
-                    overflow: TextOverflow.ellipsis,
-                    style: extendedTheme.monoSmallText,
-                  ),
-                ],
-              ),
+          Padding(
+            padding: EdgeInsets.only(left: 16, right: 16, top: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  walletName,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.labelLarge,
+                ),
+                SizedBox(height: 4),
+                Text(
+                  address.cropMiddle(15),
+                  overflow: TextOverflow.ellipsis,
+                  style: extendedTheme.monoSmallText,
+                ),
+              ],
             ),
           ),
           Expanded(
@@ -99,7 +97,8 @@ class SelectWalletBox extends StatelessWidget {
               WalletTypeLabel(label: walletType),
               SizedBox(height: walletType == WalletType.single ? 8 : 0),
               Text(
-                '$balance ${WIT_UNIT[WitUnit.Wit]}',
+                '10,000,000,000,000 ${WIT_UNIT[WitUnit.Wit]}',
+                // '$balance ${WIT_UNIT[WitUnit.Wit]}',
                 textAlign: TextAlign.end,
                 overflow: TextOverflow.ellipsis,
                 style: theme.textTheme.labelLarge,

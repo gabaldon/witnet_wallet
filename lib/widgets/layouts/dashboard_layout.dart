@@ -61,6 +61,7 @@ class DashboardLayoutState extends State<DashboardLayout>
   void initState() {
     if (this.mounted) _copyToClipboardFocusNode.addListener(_handleFocus);
     super.initState();
+    // if (panel.isAttached()) panel.close();
   }
 
   @override

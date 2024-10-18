@@ -60,9 +60,8 @@ Future<String?> unlockKeychainModal(
                 backgroundColor: theme.colorScheme.surface,
                 surfaceTintColor: theme.colorScheme.surface,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8))),
+                    borderRadius: BorderRadius.all(Radius.circular(32))),
                 content: Column(mainAxisSize: MainAxisSize.min, children: [
-                  SizedBox(height: 8),
                   svgThemeImage(theme, name: imageName, height: 100),
                   SizedBox(height: 16),
                   PasswordValidation(

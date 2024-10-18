@@ -52,11 +52,10 @@ class Layout extends StatefulWidget {
   LayoutState createState() => LayoutState();
 }
 
-final panelController = PanelController();
-
 class LayoutState extends State<Layout> with TickerProviderStateMixin {
   ScrollController defaultScrollController =
       ScrollController(keepScrollOffset: false);
+  PanelUtils panel = PanelUtils();
   bool get isUpdateCheckerEnabled => Platform.isMacOS || Platform.isLinux;
   bool get isDashboard => widget.dashboardActions != null;
   bool get allowBottomBar =>
@@ -186,10 +185,10 @@ class LayoutState extends State<Layout> with TickerProviderStateMixin {
 
   void hidePanelOnMobileIfKeyboard() {
     if ((Platform.isAndroid || Platform.isIOS) &&
-        FocusScope.of(context).isFirstFocus &&
-        panelController.isAttached &&
-        panelController.isPanelOpen) {
-      panelController.close();
+        MediaQuery.of(context).viewInsets.bottom > 0 &&
+        panel.isAttached() &&
+        panel.isOpen()) {
+      panel.close();
     }
   }
 
@@ -202,13 +201,13 @@ class LayoutState extends State<Layout> with TickerProviderStateMixin {
       // Hide panel if the mobile keyboard is open
       hidePanelOnMobileIfKeyboard();
       return SlidingUpPanel(
-          controller: panelController,
+          controller: panel.getPanelController(),
           backdropEnabled: true,
           color: extendedTheme.panelBgColor!,
           minHeight: 0,
           maxHeight: MediaQuery.of(context).size.height * 0.4,
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+              topLeft: Radius.circular(32), topRight: Radius.circular(32)),
           panel: Center(
               child: ConstrainedBox(
                   constraints: BoxConstraints(
@@ -396,9 +395,7 @@ class LayoutState extends State<Layout> with TickerProviderStateMixin {
                           InitScreen.route)
                     {
                       navigator.pop(),
-                      if (panelController.isAttached &&
-                          panelController.isPanelOpen)
-                        {panelController.close()}
+                      if (panel.isAttached() && panel.isOpen()) {panel.close()}
                     }
                 },
               )
@@ -417,8 +414,8 @@ class LayoutState extends State<Layout> with TickerProviderStateMixin {
                           ..onTapDown = (TapDownDetails details) {
                             if (navigator.canPop()) {
                               navigator.pop();
-                              if (panelController.isPanelOpen) {
-                                panelController.close();
+                              if (panel.isOpen()) {
+                                panel.close();
                               }
                             }
                           };

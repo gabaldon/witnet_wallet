@@ -70,7 +70,7 @@ InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
   errorBorder: OutlineInputBorder(
     borderSide: BorderSide(
         color: WitnetPallet.darkRed, width: 1.0, style: BorderStyle.solid),
-    borderRadius: BorderRadius.circular(24),
+    borderRadius: BorderRadius.circular(32),
   ),
   helperStyle: TextStyle(color: WitnetPallet.darkerGrey),
   helperMaxLines: 1,
@@ -83,26 +83,26 @@ InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
   labelStyle: bodyRegular.copyWith(fontSize: 24),
   isDense: true,
   isCollapsed: false,
-  contentPadding: EdgeInsets.all(16),
+  contentPadding: const EdgeInsets.all(16),
   enabledBorder: OutlineInputBorder(
     borderSide: BorderSide(
         color: WitnetPallet.black, width: 1.0, style: BorderStyle.solid),
-    borderRadius: BorderRadius.circular(24),
+    borderRadius: BorderRadius.circular(32),
   ),
   focusedBorder: OutlineInputBorder(
     borderSide: BorderSide(
         color: WitnetPallet.brightCyan, width: 1.0, style: BorderStyle.solid),
-    borderRadius: BorderRadius.circular(24),
+    borderRadius: BorderRadius.circular(32),
   ),
   focusedErrorBorder: OutlineInputBorder(
     borderSide: BorderSide(
         color: WitnetPallet.darkRed, width: 1.0, style: BorderStyle.solid),
-    borderRadius: BorderRadius.circular(24),
+    borderRadius: BorderRadius.circular(32),
   ),
   border: OutlineInputBorder(
     borderSide: BorderSide(
         color: WitnetPallet.white, width: 1.0, style: BorderStyle.solid),
-    borderRadius: BorderRadius.circular(24),
+    borderRadius: BorderRadius.circular(32),
   ),
   alignLabelWithHint: true,
 );
@@ -113,14 +113,14 @@ CardTheme cardTheme = CardTheme(
 );
 ElevatedButtonThemeData elevatedButtonTheme = ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-  padding: const EdgeInsets.all(16),
+  padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
   backgroundColor: WitnetPallet.black,
   disabledForegroundColor: WitnetPallet.lightGrey,
   disabledBackgroundColor: WitnetPallet.lighterGrey,
   foregroundColor: WitnetPallet.lighterGrey,
   splashFactory: NoSplash.splashFactory,
   shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(24)), // background color
+      borderRadius: BorderRadius.circular(32)), // background color
   textStyle: bodyRegular.copyWith(
     fontSize: 16,
     color: WitnetPallet.white,
@@ -132,7 +132,7 @@ TextButtonThemeData textButtonTheme = TextButtonThemeData(
     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
     splashFactory: NoSplash.splashFactory,
     shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(24))),
+        borderRadius: BorderRadius.all(Radius.circular(32))),
     textStyle: bodyRegular.copyWith(
       fontSize: 16,
       color: WitnetPallet.black,
@@ -142,22 +142,23 @@ TextButtonThemeData textButtonTheme = TextButtonThemeData(
 
 TooltipThemeData tooltipTheme = TooltipThemeData(
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: BorderRadius.circular(32),
       color: WitnetPallet.lighterGrey,
     ),
     margin: EdgeInsets.all(8),
-    padding: EdgeInsets.all(16),
+    padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
     textStyle: bodyRegular.copyWith(color: WitnetPallet.black, fontSize: 12));
 
 ProgressIndicatorThemeData progressIndicatorTheme = ProgressIndicatorThemeData(
     refreshBackgroundColor: WitnetPallet.brightCyanOpacity1);
 OutlinedButtonThemeData outlinedButtonTheme = OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
+  backgroundColor: WitnetPallet.white,
   foregroundColor: WitnetPallet.black,
   disabledForegroundColor: Color.fromARGB(114, 2, 29, 48).withOpacity(0.38),
-  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
   side: BorderSide(width: 1, color: WitnetPallet.black),
-  padding: const EdgeInsets.all(16),
+  padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
   textStyle: bodyRegular.copyWith(
     fontSize: 16,
     fontWeight: FontWeight.bold,
