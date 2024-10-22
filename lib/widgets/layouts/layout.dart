@@ -241,7 +241,7 @@ class LayoutState extends State<Layout> with TickerProviderStateMixin {
               statusBarIconBrightness: Brightness.light,
               statusBarBrightness: Brightness.dark,
             ),
-            pinned: true,
+            pinned: false,
             elevation: 0,
             surfaceTintColor: theme.colorScheme.surface.withOpacity(0.0),
             automaticallyImplyLeading: false,
@@ -275,12 +275,14 @@ class LayoutState extends State<Layout> with TickerProviderStateMixin {
 
   Widget headerLayout(context, theme) {
     if (widget.slidingPanel == null) {
+      // Header for login and create import wallet
       return Container(
           child: HeaderLayout(
         navigationActions: widget.topNavigation,
         dashboardActions: widget.dashboardActions,
       ));
     } else {
+      // Header for dashboard
       return HeaderLayout(
         navigationActions: [...widget.topNavigation],
         dashboardActions: widget.dashboardActions,

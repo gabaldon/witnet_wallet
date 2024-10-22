@@ -51,72 +51,56 @@ class HeaderLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     final extendedTheme = Theme.of(context).extension<ExtendedTheme>()!;
     final theme = Theme.of(context);
+    Color? headerBgColor = isLoginPage()
+        ? theme.colorScheme.surface
+        : extendedTheme.headerBackgroundColor;
+    print('Is login page ? ${isLoginPage()}');
     return Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-          colors: [
-            theme.colorScheme.surface,
-            theme.colorScheme.surface,
-            theme.colorScheme.surface,
-            theme.colorScheme.surface.withOpacity(0.7),
-            theme.colorScheme.surface.withOpacity(0.7),
-            theme.colorScheme.surface.withOpacity(0),
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          stops: [0, 0.2, 0.6, 0.7, 0.95, 1],
-        )),
-        child: ClipPath(
-            clipper: Customshape(),
+        color: headerBgColor,
+        child: SafeArea(
             child: Container(
-                color: extendedTheme.headerBackgroundColor,
-                child: SafeArea(
-                    child: Container(
-                  height: dashboardActions != null
-                      ? getDashboardHeaderHeight()
-                      : HEADER_HEIGHT,
-                  width: MediaQuery.of(context).size.width,
-                  color: extendedTheme.headerBackgroundColor,
-                  child: Stack(children: [
-                    Positioned(
-                        top: -100,
-                        right: -60,
-                        child:
-                            svgThemeImage(theme, name: 'dots-bg', height: 270)),
-                    Column(children: [
-                      Container(
-                          padding: navigationBarPadding(),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: navigationActions.length > 1
-                                ? MainAxisAlignment.spaceBetween
-                                : MainAxisAlignment.start,
-                            children: navigationActions,
-                          )),
-                      Container(
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                            Flexible(
-                                child: ConstrainedBox(
-                              constraints: BoxConstraints(
-                                  minWidth: 50,
-                                  maxWidth: dashboardActions != null
-                                      ? MediaQuery.of(context).size.width * 0.9
-                                      : MediaQuery.of(context).size.width *
-                                          0.3),
-                              child: Column(
-                                children: [
-                                  dashboardActions != null
-                                      ? dashboardActions!
-                                      : witnetEyeIcon(theme,
-                                          height: witnetLogoHeight)
-                                ],
-                              ),
-                            )),
-                          ])),
-                    ])
-                  ]),
-                )))));
+          height: dashboardActions != null
+              ? getDashboardHeaderHeight()
+              : HEADER_HEIGHT,
+          width: MediaQuery.of(context).size.width,
+          color: headerBgColor,
+          child: Stack(children: [
+            Positioned(
+                top: -100,
+                right: -60,
+                child: svgThemeImage(theme, name: 'dots-bg', height: 270)),
+            Column(children: [
+              Container(
+                  padding: navigationBarPadding(),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: navigationActions.length > 1
+                        ? MainAxisAlignment.spaceBetween
+                        : MainAxisAlignment.start,
+                    children: navigationActions,
+                  )),
+              Container(
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                    Flexible(
+                        child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                          minWidth: 50,
+                          maxWidth: dashboardActions != null
+                              ? MediaQuery.of(context).size.width * 0.9
+                              : MediaQuery.of(context).size.width * 0.3),
+                      child: Column(
+                        children: [
+                          dashboardActions != null
+                              ? dashboardActions!
+                              : witnetEyeIcon(theme, height: witnetLogoHeight)
+                        ],
+                      ),
+                    )),
+                  ])),
+            ])
+          ]),
+        )));
   }
 }
